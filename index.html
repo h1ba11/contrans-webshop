@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contrans Varaosaportaali MVP</title>
+  <meta name="description" content="Selkeä varaosaportaali ja tiedustelukori ilman julkisia hintoja.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-grid">
+      <div>
+        <p class="eyebrow">Contrans / MVP 0.12.0</p>
+        <h1>Varaosat helposti</h1>
+        <p class="lead">Valitse oma kone, etsi varaosa ja lähetä tiedustelu. Hintoja ei näytetä sivustolla, vaan asiantuntija tarkistaa sopivuuden ja vastaa tarjouksella.</p>
+      </div>
+      <aside class="help-card" aria-label="Asiakaspalvelu">
+        <strong>Tarvitsetko apua?</strong>
+        <span>Voit myös lähettää tiedustelun ilman oikean osan tietämistä.</span>
+        <a class="button secondary full" href="mailto:varaosat@example.com">Kysy apua sähköpostilla</a>
+      </aside>
+    </div>
+  </header>
+
+  <main class="container app-shell">
+    <section class="steps" aria-label="Kolme vaihetta">
+      <div class="step-card active"><span>1</span><strong>Valitse kone</strong></div>
+      <div class="step-card"><span>2</span><strong>Lisää osat</strong></div>
+      <div class="step-card"><span>3</span><strong>Lähetä tiedustelu</strong></div>
+    </section>
+
+    <section class="content-grid">
+      <div class="main-panel">
+        <section class="machine-section" aria-labelledby="machineTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Oma kone</p>
+              <h2 id="machineTitle">Mihin koneeseen tarvitset osia?</h2>
+            </div>
+            <button type="button" id="clearMachineButton" class="button text-button hidden">Tyhjennä valinta</button>
+          </div>
+          <div id="selectedMachine" class="selected-machine hidden"></div>
+          <div id="machineCards" class="machine-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="search-section" aria-labelledby="searchTitle">
+          <div class="section-heading compact-heading">
+            <div>
+              <p class="eyebrow">Haku</p>
+              <h2 id="searchTitle">Etsi varaosa</h2>
+            </div>
+            <p id="resultCount" class="result-count"></p>
+          </div>
+
+          <div class="simple-search">
+            <label for="searchInput">Kirjoita osan nimi, tuotenumero tai hakusana</label>
+            <input id="searchInput" type="search" placeholder="Esim. terä, ketju, anturi, Fusion 4..." autocomplete="off">
+          </div>
+
+          <details class="advanced-search">
+            <summary>Lisävalinnat</summary>
+            <div class="advanced-grid">
+              <div>
+                <label for="brandFilter">Valmistaja</label>
+                <select id="brandFilter"><option value="">Kaikki</option></select>
+              </div>
+              <div>
+                <label for="typeFilter">Näytä</label>
+                <select id="typeFilter">
+                  <option value="part">Varaosat</option>
+                  <option value="machine">Koneet</option>
+                  <option value="">Kaikki</option>
+                </select>
+              </div>
+            </div>
+          </details>
+
+          <div id="catalogResults" class="catalog-list" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <aside class="inquiry-panel" aria-label="Tiedustelu">
+        <div class="panel-heading compact">
+          <div>
+            <p class="eyebrow">Tiedustelu</p>
+            <h2>Valitut osat</h2>
+          </div>
+          <span id="cartCount" class="badge">0</span>
+        </div>
+
+        <div id="cartItems" class="cart-items empty">Ei vielä valittuja osia.</div>
+
+        <form id="inquiryForm" class="inquiry-form">
+          <label for="machineModel">Koneen malli</label>
+          <input id="machineModel" type="text" placeholder="Esim. Fusion 4 Plus">
+
+          <label for="machineSerial">Sarjanumero</label>
+          <input id="machineSerial" type="text" placeholder="Lisää, jos tiedossa">
+
+          <label for="customerName">Nimi</label>
+          <input id="customerName" type="text" placeholder="Asiakkaan nimi">
+
+          <label for="customerContact">Sähköposti tai puhelin</label>
+          <input id="customerContact" type="text" placeholder="Yhteystieto">
+
+          <label for="inquiryNote">Lisätiedot</label>
+          <textarea id="inquiryNote" rows="5" placeholder="Kerro lyhyesti vika tai tarve. Voit mainita myös, jos et ole varma oikeasta osasta."></textarea>
+
+          <button type="button" id="unknownPartButton" class="button secondary full">En löydä oikeaa osaa</button>
+          <button type="button" id="copyInquiryButton" class="button primary full">Kopioi tiedustelu</button>
+          <a id="mailtoLink" class="button secondary full" href="mailto:varaosat@example.com">Avaa sähköpostiin</a>
+        </form>
+        <p id="copyStatus" class="copy-status" role="status"></p>
+      </aside>
+    </section>
+  </main>
+
+  <template id="machineTemplate">
+    <article class="machine-card">
+      <img class="item-image" alt="">
+      <div class="machine-card-body">
+        <h3></h3>
+        <p class="summary"></p>
+        <button type="button" class="button primary full">Valitse tämä kone</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="itemTemplate">
+    <article class="item-card">
+      <img class="item-image" alt="">
+      <div class="item-content">
+        <div class="card-topline">
+          <span class="tag type-tag"></span>
+          <span class="tag no-price-tag">Hinta vastauksessa</span>
+        </div>
+        <h3></h3>
+        <p class="sku"></p>
+        <p class="summary"></p>
+        <div class="simple-meta"></div>
+        <div class="card-actions"></div>
+        <details class="item-details">
+          <summary>Näytä lisätiedot</summary>
+          <dl class="meta-list"></dl>
+          <div class="notes"></div>
+          <div class="documents"></div>
+          <div class="relations"></div>
+        </details>
+      </div>
+    </article>
+  </template>
+
+  <script src="catalog-fallback.js"></script>
+  <script src="data-source.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

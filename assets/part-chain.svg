@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-label="Ketjusarja kuvituskuva">
+  <rect width="640" height="420" rx="34" fill="#f3efe5"/>
+  <g fill="none" stroke="#2f5d3a" stroke-width="28" stroke-linecap="round">
+    <path d="M170 205c0-42 34-76 76-76h38"/>
+    <path d="M294 129h70c42 0 76 34 76 76s-34 76-76 76h-38"/>
+    <path d="M346 205c0 42-34 76-76 76h-38"/>
+    <path d="M170 205c0 42 34 76 76 76h38" stroke="#d98b2b"/>
+  </g>
+  <circle cx="320" cy="205" r="32" fill="#fffaf1" stroke="#1f2933" stroke-width="12"/>
+  <text x="82" y="370" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#2f5d3a">Ketju / huolto</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-label="Teräsarja kuvituskuva">
+  <rect width="640" height="420" rx="34" fill="#f3efe5"/>
+  <g transform="translate(120 104) rotate(-12 200 110)">
+    <path d="M26 172L326 36c30-14 63 15 48 45L228 356c-8 16-29 18-40 4L14 197c-9-9-5-20 12-25z" fill="#cdd4d9" stroke="#6b7280" stroke-width="10"/>
+    <path d="M86 186l220-96" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.55"/>
+    <circle cx="165" cy="237" r="28" fill="#f3efe5" stroke="#6b7280" stroke-width="10"/>
+  </g>
+  <text x="82" y="370" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#2f5d3a">Varaosa</text>
+</svg>

@@ -1,0 +1,537 @@
+{
+  "meta": {
+    "version": "0.12.0",
+    "updated": "2026-06-16",
+    "name": "Contrans Varaosaportaali MVP",
+    "currency": null,
+    "pricingVisible": false,
+    "sourceSystem": "Demo data, designed for Easoft CSV/API mapping",
+    "note": "Senior-friendly inquiry-only MVP with simplified machine-first user interface and illustration placeholders."
+  },
+  "documents": [
+    {
+      "id": "mchale-support",
+      "title": "McHale Support",
+      "type": "support",
+      "brand": "McHale",
+      "url": "https://www.mchale.net/support/",
+      "note": "Virallinen tukisivu: varaosakirjat, käyttöohjeet, ISOBUS/ISO-PLAY ja yhteystiedot."
+    },
+    {
+      "id": "mchale-parts-books",
+      "title": "McHale Spare Parts Books",
+      "type": "parts-book",
+      "brand": "McHale",
+      "url": "https://medialibrary.mchale.net/s/Spare_Parts_Books/fo",
+      "note": "Virallinen varaosakirjojen mediakirjasto."
+    },
+    {
+      "id": "mchale-operators-manuals",
+      "title": "McHale Operators Manuals",
+      "type": "manual",
+      "brand": "McHale",
+      "url": "https://medialibrary.mchale.net/s/Operators_Manuals/fo",
+      "note": "Virallinen käyttöohjekirjasto."
+    },
+    {
+      "id": "mchale-isobus-help",
+      "title": "McHale ISOBUS & ISO-PLAY Help",
+      "type": "video",
+      "brand": "McHale",
+      "url": "https://www.youtube.com/user/McHaleMachinery",
+      "note": "Ohjevideot ISOBUS- ja ISO-PLAY-kytkentöihin."
+    },
+    {
+      "id": "mchale-fusion4-range-brochure",
+      "title": "McHale Fusion 4 Integrated Baler Wrapper Range brochure",
+      "type": "brochure",
+      "brand": "McHale",
+      "url": "https://www.mchale.net/wp-content/uploads/2022/11/McHale_Fusion_4_Integrated_Baler_Wrapper_-Range_English.pdf",
+      "note": "Tuote-esite Fusion 4 -sarjalle."
+    },
+    {
+      "id": "mchale-f5-range-brochure",
+      "title": "McHale Fixed Chamber Baler Range brochure",
+      "type": "brochure",
+      "brand": "McHale",
+      "url": "https://www.mchale.net/wp-content/uploads/2024/09/McHale_F5-RANGE_Brochure-final-Aug-2024-WEB.pdf",
+      "note": "Tuote-esite F5-sarjalle."
+    }
+  ],
+  "items": [
+    {
+      "id": "MCH-FUSION-4-PLUS",
+      "sku": "MCH-FUSION-4-PLUS",
+      "name": "McHale Fusion 4 Plus",
+      "brand": "McHale",
+      "type": "machine",
+      "category": "Integrated Baler Wrapper",
+      "summary": "Täysautomaattinen integroitu paalain-käärin, jossa on film-on-film-sidonta.",
+      "searchTerms": [
+        "fusion",
+        "fusion 4",
+        "fusion 4 plus",
+        "paalain",
+        "käärin",
+        "film on film"
+      ],
+      "compatibleModels": [
+        "Fusion 4 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-support",
+        "mchale-parts-books",
+        "mchale-operators-manuals",
+        "mchale-fusion4-range-brochure"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-KNIFE-SET",
+        "DEMO-MCH-FUSION-CHAIN-KIT",
+        "DEMO-MCH-FUSION-SENSOR-CHECK"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Sopivuus ja varaosat varmistetaan sarjanumerolla ennen tarjousta.",
+        "Demo-kohde: ei sisällä virallista varaosanumeroa."
+      ],
+      "image": "assets/machine-baler.svg"
+    },
+    {
+      "id": "MCH-FUSION-4-PRO",
+      "sku": "MCH-FUSION-4-PRO",
+      "name": "McHale Fusion 4 Pro",
+      "brand": "McHale",
+      "type": "machine",
+      "category": "Integrated Baler Wrapper",
+      "summary": "Täysautomaattinen integroitu paalain-käärin ISOBUS-ohjauksella ja Pro-varustelulla.",
+      "searchTerms": [
+        "fusion",
+        "fusion 4 pro",
+        "paalain",
+        "käärin",
+        "isobus"
+      ],
+      "compatibleModels": [
+        "Fusion 4 Pro"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-support",
+        "mchale-parts-books",
+        "mchale-operators-manuals",
+        "mchale-fusion4-range-brochure"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-KNIFE-SET",
+        "DEMO-MCH-FUSION-CHAIN-KIT",
+        "DEMO-MCH-FUSION-SENSOR-CHECK"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Sopivuus ja varaosat varmistetaan sarjanumerolla ennen tarjousta."
+      ],
+      "image": "assets/machine-baler.svg"
+    },
+    {
+      "id": "MCH-F5-560-PLUS",
+      "sku": "MCH-F5-560-PLUS",
+      "name": "McHale F5-560 Plus",
+      "brand": "McHale",
+      "type": "machine",
+      "category": "Fixed Chamber Round Baler",
+      "summary": "Täysautomaattinen kiinteäkammioinen paalain 25-teräisellä silppurilla ja filmisidonnalla.",
+      "searchTerms": [
+        "f5",
+        "f5-560",
+        "f5-560 plus",
+        "fixed chamber",
+        "paalain",
+        "film binding"
+      ],
+      "compatibleModels": [
+        "F5-560 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-support",
+        "mchale-parts-books",
+        "mchale-operators-manuals",
+        "mchale-f5-range-brochure"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-F5-KNIFE-SET",
+        "DEMO-MCH-F5-GREASE-CHECK"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Kysy sopivuus sarjanumeron perusteella."
+      ],
+      "image": "assets/machine-baler.svg"
+    },
+    {
+      "id": "MCH-V6750-II",
+      "sku": "MCH-V6750-II",
+      "name": "McHale V6750-II",
+      "brand": "McHale",
+      "type": "machine",
+      "category": "Variable Chamber Round Baler",
+      "summary": "15-teräinen muuttuvakammioinen pyöröpaalain.",
+      "searchTerms": [
+        "v6750",
+        "v6750-ii",
+        "variable chamber",
+        "paalain",
+        "15 knife"
+      ],
+      "compatibleModels": [
+        "V6750-II"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-support",
+        "mchale-parts-books",
+        "mchale-operators-manuals"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-V6-BELT-CHECK",
+        "DEMO-MCH-FUSION-SENSOR-CHECK"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Sarjanumero on erityisen tärkeä, koska varaosamuutokset voivat riippua valmistuserästä."
+      ],
+      "image": "assets/machine-baler.svg"
+    },
+    {
+      "id": "DEMO-MCH-FUSION-KNIFE-SET",
+      "sku": "DEMO-MCH-FUSION-KNIFE-SET",
+      "name": "Fusion-sarjan teräsarja, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Chopper Unit",
+      "summary": "Esimerkkituote teräsarjan tiedusteluun. Tarkka osa varmistetaan koneen mallilla ja sarjanumerolla.",
+      "searchTerms": [
+        "terä",
+        "teräsarja",
+        "knife",
+        "chopper",
+        "fusion",
+        "silppuri"
+      ],
+      "compatibleModels": [
+        "Fusion 4",
+        "Fusion 4 Pro",
+        "Fusion 4 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-operators-manuals",
+        "mchale-fusion4-range-brochure"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-KNIFE-BOLT-SET",
+        "DEMO-MCH-FUSION-SENSOR-CHECK"
+      ],
+      "requiredTogetherIds": [
+        "DEMO-MCH-FUSION-KNIFE-BOLT-SET"
+      ],
+      "notes": [
+        "Teräsarjoissa kiinnitystarvikkeet kannattaa tarkistaa samalla.",
+        "Demo-tuote: vaihda Easoftista tulevaan oikeaan tuotenumeroon."
+      ],
+      "image": "assets/part-knife.svg"
+    },
+    {
+      "id": "DEMO-MCH-FUSION-KNIFE-BOLT-SET",
+      "sku": "DEMO-MCH-FUSION-KNIFE-BOLT-SET",
+      "name": "Terien kiinnitystarvikesarja, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Fasteners",
+      "summary": "Esimerkkituote terien vaihdon yhteydessä tarkistettaville kiinnitystarvikkeille.",
+      "searchTerms": [
+        "pultti",
+        "kiinnitys",
+        "bolt",
+        "fastener",
+        "terä",
+        "knife"
+      ],
+      "compatibleModels": [
+        "Fusion 4",
+        "Fusion 4 Pro",
+        "Fusion 4 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-KNIFE-SET"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Tarkista määrä ja malli varaosakirjasta sarjanumeron perusteella."
+      ],
+      "image": "assets/part-knife.svg"
+    },
+    {
+      "id": "DEMO-MCH-FUSION-CHAIN-KIT",
+      "sku": "DEMO-MCH-FUSION-CHAIN-KIT",
+      "name": "Fusion-sarjan ketju-/voimansiirtotarkistus, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Driveline",
+      "summary": "Esimerkkituote, joka ohjaa kysymään ketjujen, rattaiden ja kiristimien kokonaisuutta.",
+      "searchTerms": [
+        "ketju",
+        "chain",
+        "voimansiirto",
+        "ratas",
+        "kiristin",
+        "fusion"
+      ],
+      "compatibleModels": [
+        "Fusion 4",
+        "Fusion 4 Pro",
+        "Fusion 4 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-operators-manuals"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-GREASE-CHECK",
+        "DEMO-MCH-FUSION-SENSOR-CHECK"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Kokonaisuuteen voi kuulua useita osia. Kuva kuluneesta kohdasta auttaa tunnistuksessa."
+      ],
+      "image": "assets/part-chain.svg"
+    },
+    {
+      "id": "DEMO-MCH-FUSION-GREASE-CHECK",
+      "sku": "DEMO-MCH-FUSION-GREASE-CHECK",
+      "name": "Voitelujärjestelmän tarkistusosat, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Lubrication",
+      "summary": "Esimerkkituote automaattisen/progressiivisen voitelun osien tiedusteluun.",
+      "searchTerms": [
+        "voitelu",
+        "rasvaus",
+        "grease",
+        "lubrication",
+        "fusion"
+      ],
+      "compatibleModels": [
+        "Fusion 4",
+        "Fusion 4 Pro",
+        "Fusion 4 Plus",
+        "F5-560",
+        "F5-560 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-operators-manuals"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-CHAIN-KIT"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Oikea osa riippuu koneen voitelujärjestelmästä ja varustelusta."
+      ],
+      "image": "assets/part-grease.svg"
+    },
+    {
+      "id": "DEMO-MCH-FUSION-SENSOR-CHECK",
+      "sku": "DEMO-MCH-FUSION-SENSOR-CHECK",
+      "name": "Anturi- ja johdinsarjatarkistus, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Electronics",
+      "summary": "Esimerkkituote antureiden, johtosarjojen ja ohjainjärjestelmän osien tiedusteluun.",
+      "searchTerms": [
+        "anturi",
+        "sensor",
+        "johdinsarja",
+        "wiring",
+        "isobus",
+        "iso-play",
+        "sähkö"
+      ],
+      "compatibleModels": [
+        "Fusion 4",
+        "Fusion 4 Pro",
+        "Fusion 4 Plus",
+        "V6750-II",
+        "F5-560 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-isobus-help",
+        "mchale-operators-manuals"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-CHAIN-KIT"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Kuva vikakoodista, ohjaimen näkymästä tai rikkoutuneesta liittimestä nopeuttaa tunnistusta."
+      ],
+      "image": "assets/part-sensor.svg"
+    },
+    {
+      "id": "DEMO-MCH-F5-KNIFE-SET",
+      "sku": "DEMO-MCH-F5-KNIFE-SET",
+      "name": "F5-sarjan silppuriterät, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Chopper Unit",
+      "summary": "Esimerkkituote F5-sarjan terien tiedusteluun.",
+      "searchTerms": [
+        "f5",
+        "terä",
+        "knife",
+        "silppuri",
+        "chopper"
+      ],
+      "compatibleModels": [
+        "F5-550",
+        "F5-560",
+        "F5-560 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-f5-range-brochure"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-KNIFE-BOLT-SET",
+        "DEMO-MCH-F5-GREASE-CHECK"
+      ],
+      "requiredTogetherIds": [
+        "DEMO-MCH-FUSION-KNIFE-BOLT-SET"
+      ],
+      "notes": [
+        "Tarkista terien määrä ja versio sarjanumeron perusteella."
+      ],
+      "image": "assets/part-knife.svg"
+    },
+    {
+      "id": "DEMO-MCH-F5-GREASE-CHECK",
+      "sku": "DEMO-MCH-F5-GREASE-CHECK",
+      "name": "F5-sarjan voiteluosat, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Lubrication",
+      "summary": "Esimerkkituote F5-sarjan voitelujärjestelmän osien tiedusteluun.",
+      "searchTerms": [
+        "f5",
+        "voitelu",
+        "rasvaus",
+        "grease",
+        "lubrication"
+      ],
+      "compatibleModels": [
+        "F5-540",
+        "F5-550",
+        "F5-560",
+        "F5-560 Plus"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-operators-manuals",
+        "mchale-f5-range-brochure"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-F5-KNIFE-SET"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Voitelujärjestelmä voi vaihdella mallin ja varustelun mukaan."
+      ],
+      "image": "assets/part-grease.svg"
+    },
+    {
+      "id": "DEMO-MCH-V6-BELT-CHECK",
+      "sku": "DEMO-MCH-V6-BELT-CHECK",
+      "name": "V6/V6750 hihna- ja rullatarkistus, demo",
+      "brand": "McHale",
+      "type": "part",
+      "category": "Belts and Rollers",
+      "summary": "Esimerkkituote muuttuvakammioisen paalaimen hihnojen ja rullien tiedusteluun.",
+      "searchTerms": [
+        "v6",
+        "v6750",
+        "hihna",
+        "belt",
+        "rulla",
+        "roller",
+        "variable chamber"
+      ],
+      "compatibleModels": [
+        "V6740-II",
+        "V6750-II",
+        "V6760-II"
+      ],
+      "serialNumberRequired": true,
+      "visibility": "public",
+      "inquiryOnly": true,
+      "priceVisible": false,
+      "documentIds": [
+        "mchale-parts-books",
+        "mchale-operators-manuals"
+      ],
+      "relatedIds": [
+        "DEMO-MCH-FUSION-SENSOR-CHECK"
+      ],
+      "requiredTogetherIds": [],
+      "notes": [
+        "Lisää kuva hihnan/rullan kunnosta ja koneen tyyppikilvestä."
+      ],
+      "image": "assets/part-general.svg"
+    }
+  ]
+}
