@@ -1,12 +1,15 @@
 (function () {
   'use strict';
 
+  var MCHALE_MACHINE_DETAILS_API_URL = 'https://my.mchale.net/api/MachineDetails/GetMachineDetails';
+
   var state = {
     catalog: null,
     items: [],
     documentsById: {},
     cart: [],
     selectedMachineId: '',
+    mchaleMachineDetails: null,
     filters: {
       search: '',
       brand: '',
@@ -52,7 +55,33 @@
     });
   }
 
+  function createMchaleMachineItem(details) {
+    if (!details) return null;
+
+    return {
+      id: 'MCH-SERIAL-' + details.serialNumber,
+      sku: details.serialNumber,
+      name: 'McHale ' + (details.model || 'kone'),
+      brand: 'McHale',
+      type: 'machine',
+      category: 'My McHale -sarjanumerohaku',
+      summary: 'Kone haettu My McHale -palvelusta sarjanumerolla ' + details.serialNumber + '.',
+      compatibleModels: details.model ? [details.model] : [],
+      serialNumberRequired: true,
+      visibility: 'public',
+      inquiryOnly: true,
+      priceVisible: false,
+      documentIds: [],
+      relatedIds: [],
+      requiredTogetherIds: [],
+      notes: [],
+      image: 'assets/machine-baler.svg',
+      isMchaleApiMachine: true
+    };
+  }
+
   function getSelectedMachine() {
+    if (state.mchaleMachineDetails) return createMchaleMachineItem(state.mchaleMachineDetails);
     return getItemById(state.selectedMachineId);
   }
 
@@ -97,6 +126,10 @@
 
     if (!machine || item.type === 'machine') return true;
 
+    if (state.mchaleMachineDetails) {
+      return item.brand === 'McHale';
+    }
+
     model = normalize(getMainMachineModel(machine));
     compatible = normalize((item.compatibleModels || []).join(' '));
 
@@ -127,6 +160,95 @@
     dd.textContent = value;
     metaList.appendChild(dt);
     metaList.appendChild(dd);
+  }
+
+  function sanitizeSerial(value) {
+    return String(value || '').trim().replace(/\s+/g, '');
+  }
+
+  function formatDateFi(value) {
+    var datePart = String(value || '').split('T')[0];
+    var parts = datePart.split('-');
+
+    if (parts.length !== 3) return value || '';
+    return parseInt(parts[2], 10) + '.' + parseInt(parts[1], 10) + '.' + parts[0];
+  }
+
+  function getMchaleLookupEndpoint() {
+    var config = window.CONTRANS_CONFIG || {};
+    return config.mchaleMachineDetailsEndpoint || MCHALE_MACHINE_DETAILS_API_URL;
+  }
+
+  function buildMchaleLookupUrl(serial) {
+    var endpoint = getMchaleLookupEndpoint();
+    var separator = endpoint.indexOf('?') === -1 ? '?' : '&';
+    return endpoint + separator + 'serialNumber=' + encodeURIComponent(serial);
+  }
+
+  function fetchMchaleMachineDetails(serial) {
+    if (!window.fetch) {
+      return Promise.reject(new Error('Selain ei tue automaattista hakua. Lisää sarjanumero tiedusteluun.'));
+    }
+
+    return window.fetch(buildMchaleLookupUrl(serial), {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      },
+      cache: 'no-store'
+    }).then(function (response) {
+      if (!response.ok) {
+        throw new Error('My McHale -haku palautti virheen ' + response.status + '.');
+      }
+      return response.json();
+    });
+  }
+
+  function setLookupResult(kind, titleText, bodyText) {
+    elements.mchaleLookupResult.innerHTML = '';
+    elements.mchaleLookupResult.className = 'lookup-result ' + (kind || 'info');
+
+    var title = document.createElement('strong');
+    var body = document.createElement('p');
+
+    title.textContent = titleText;
+    body.textContent = bodyText;
+
+    elements.mchaleLookupResult.appendChild(title);
+    elements.mchaleLookupResult.appendChild(body);
+  }
+
+  function hideLookupResult() {
+    elements.mchaleLookupResult.innerHTML = '';
+    elements.mchaleLookupResult.className = 'lookup-result hidden';
+  }
+
+  function renderMchaleLookupSuccess(details) {
+    var title;
+    var body;
+    var specList;
+
+    elements.mchaleLookupResult.innerHTML = '';
+    elements.mchaleLookupResult.className = 'lookup-result success';
+
+    title = document.createElement('strong');
+    title.textContent = 'Kone löytyi: McHale ' + (details.model || '');
+    elements.mchaleLookupResult.appendChild(title);
+
+    body = document.createElement('p');
+    body.textContent = 'Sarjanumero ' + details.serialNumber + ' lisättiin tiedusteluun. Sopivuus tarkistetaan vielä asiantuntijan toimesta.';
+    elements.mchaleLookupResult.appendChild(body);
+
+    if (details.spec && details.spec.length) {
+      specList = document.createElement('ul');
+      specList.className = 'lookup-spec-list';
+      details.spec.slice(0, 5).forEach(function (entry) {
+        var item = document.createElement('li');
+        item.textContent = entry.description || entry.partNumber || 'Varustelutieto';
+        specList.appendChild(item);
+      });
+      elements.mchaleLookupResult.appendChild(specList);
+    }
   }
 
   function renderDocuments(container, item) {
@@ -241,6 +363,8 @@
     var machine = getItemById(machineId);
     if (!machine) return;
 
+    state.mchaleMachineDetails = null;
+    hideLookupResult();
     state.selectedMachineId = machineId;
     elements.machineModel.value = getMainMachineModel(machine);
     state.filters.type = 'part';
@@ -254,7 +378,11 @@
 
   function clearMachine() {
     state.selectedMachineId = '';
+    state.mchaleMachineDetails = null;
     elements.machineModel.value = '';
+    elements.machineSerial.value = '';
+    elements.mchaleSerialLookup.value = '';
+    hideLookupResult();
     renderSelectedMachine();
     renderMachineCards();
     renderCatalog();
@@ -263,6 +391,12 @@
 
   function renderSelectedMachine() {
     var machine = getSelectedMachine();
+    var details = state.mchaleMachineDetails;
+    var title;
+    var text;
+    var specTitle;
+    var specList;
+
     elements.selectedMachine.innerHTML = '';
 
     if (!machine) {
@@ -271,11 +405,36 @@
       return;
     }
 
-    elements.selectedMachine.className = 'selected-machine';
+    elements.selectedMachine.className = details ? 'selected-machine api-machine' : 'selected-machine';
     elements.clearMachineButton.className = 'button text-button';
-    elements.selectedMachine.innerHTML = '<strong></strong><span></span>';
-    elements.selectedMachine.querySelector('strong').textContent = 'Valittu kone: ' + machine.name;
-    elements.selectedMachine.querySelector('span').textContent = 'Seuraavaksi näytetään tähän koneeseen sopivia demo-varaosia. Lisää sarjanumero tiedusteluun, jos se on tiedossa.';
+
+    title = document.createElement('strong');
+    title.textContent = details ? 'McHale-kone löytyi: ' + (details.model || '-') : 'Valittu kone: ' + machine.name;
+    elements.selectedMachine.appendChild(title);
+
+    text = document.createElement('span');
+    if (details) {
+      text.textContent = 'Sarjanumero: ' + details.serialNumber + '. Koneen tiedot lisätään automaattisesti tiedusteluun.';
+    } else {
+      text.textContent = 'Seuraavaksi näytetään tähän koneeseen sopivia demo-varaosia. Lisää sarjanumero tiedusteluun, jos se on tiedossa.';
+    }
+    elements.selectedMachine.appendChild(text);
+
+    if (details && details.spec && details.spec.length) {
+      specTitle = document.createElement('span');
+      specTitle.className = 'selected-machine-subtitle';
+      specTitle.textContent = 'Koneen varustelu:';
+      elements.selectedMachine.appendChild(specTitle);
+
+      specList = document.createElement('ul');
+      specList.className = 'selected-machine-spec-list';
+      details.spec.forEach(function (entry) {
+        var item = document.createElement('li');
+        item.textContent = entry.description || entry.partNumber || 'Varustelutieto';
+        specList.appendChild(item);
+      });
+      elements.selectedMachine.appendChild(specList);
+    }
   }
 
   function renderMachineCards() {
@@ -361,7 +520,11 @@
     if (machine) {
       var hint = document.createElement('p');
       hint.className = 'filter-hint';
-      hint.textContent = 'Näytetään valittuun koneeseen sopivia demo-osia: ' + machine.name;
+      if (state.mchaleMachineDetails) {
+        hint.textContent = 'Kone haettiin My McHale -palvelusta. Näytetään McHale-demo-osia; tarkka sopivuus varmistetaan sarjanumerolla.';
+      } else {
+        hint.textContent = 'Näytetään valittuun koneeseen sopivia demo-osia: ' + machine.name;
+      }
       elements.catalogResults.appendChild(hint);
     }
 
@@ -455,6 +618,30 @@
     lines.push('Yhteystieto: ' + (customerContact || '-'));
     lines.push('Koneen malli: ' + (machineModel || '-'));
     lines.push('Sarjanumero: ' + (machineSerial || '-'));
+
+    if (state.mchaleMachineDetails) {
+      lines.push('');
+      lines.push('My McHale -haun tiedot:');
+      lines.push('- Haku onnistui: kyllä');
+      lines.push('- Malli: ' + (state.mchaleMachineDetails.model || '-'));
+      lines.push('- Rekisteröity McHalella: ' + (state.mchaleMachineDetails.machineRegistered ? 'kyllä' : 'ei / ei tiedossa'));
+      if (state.mchaleMachineDetails.registrationDate) {
+        lines.push('- Rekisteröintipäivä: ' + formatDateFi(state.mchaleMachineDetails.registrationDate));
+      }
+      if (state.mchaleMachineDetails.spec && state.mchaleMachineDetails.spec.length) {
+        lines.push('- Varustelu:');
+        state.mchaleMachineDetails.spec.forEach(function (entry) {
+          lines.push('  * ' + (entry.description || entry.partNumber || 'Varustelutieto'));
+        });
+      }
+      if (state.mchaleMachineDetails.mandatoryUpgrades && state.mchaleMachineDetails.mandatoryUpgrades.length) {
+        lines.push('- Pakolliset päivitykset:');
+        state.mchaleMachineDetails.mandatoryUpgrades.forEach(function (entry) {
+          lines.push('  * ' + (entry.description || entry.partNumber || 'Päivitystieto'));
+        });
+      }
+    }
+
     lines.push('');
     lines.push('Tiedusteltavat osat:');
 
@@ -516,6 +703,64 @@
     document.body.removeChild(textarea);
   }
 
+  function lookupMchaleMachine() {
+    var serial = sanitizeSerial(elements.mchaleSerialLookup.value);
+
+    if (!serial) {
+      setLookupResult('warning', 'Lisää sarjanumero', 'Kirjoita McHale-koneen sarjanumero ja paina Hae kone.');
+      elements.mchaleSerialLookup.focus();
+      return;
+    }
+
+    elements.mchaleLookupButton.disabled = true;
+    elements.mchaleLookupButton.textContent = 'Haetaan...';
+    elements.machineSerial.value = serial;
+    setLookupResult('info', 'Haetaan konetta', 'Yhdistetään My McHale -palveluun. Odota hetki.');
+
+    fetchMchaleMachineDetails(serial)
+      .then(function (details) {
+        if (!details || details.serialExists !== true) {
+          state.mchaleMachineDetails = null;
+          state.selectedMachineId = '';
+          elements.machineModel.value = '';
+          setLookupResult('warning', 'Konetta ei löytynyt automaattisesti', 'Sarjanumero lisättiin silti tiedusteluun. Asiantuntija tarkistaa sopivuuden käsin.');
+          renderSelectedMachine();
+          renderMachineCards();
+          renderCatalog();
+          updateMailtoLink();
+          return;
+        }
+
+        state.mchaleMachineDetails = details;
+        state.selectedMachineId = '';
+        elements.machineModel.value = details.model || '';
+        elements.machineSerial.value = details.serialNumber || serial;
+        state.filters.type = 'part';
+        elements.typeFilter.value = 'part';
+
+        renderMchaleLookupSuccess(details);
+        renderSelectedMachine();
+        renderMachineCards();
+        renderCatalog();
+        updateMailtoLink();
+      })
+      .catch(function (error) {
+        state.mchaleMachineDetails = null;
+        state.selectedMachineId = '';
+        elements.machineModel.value = '';
+        elements.machineSerial.value = serial;
+        setLookupResult('error', 'Automaattinen haku ei onnistunut', (error && error.message ? error.message + ' ' : '') + 'Sarjanumero lisättiin tiedusteluun, jotta asiantuntija voi tarkistaa koneen käsin.');
+        renderSelectedMachine();
+        renderMachineCards();
+        renderCatalog();
+        updateMailtoLink();
+      })
+      .then(function () {
+        elements.mchaleLookupButton.disabled = false;
+        elements.mchaleLookupButton.textContent = 'Hae kone';
+      });
+  }
+
   function addUnknownPartNote() {
     var existing = elements.inquiryNote.value.trim();
     var text = 'En ole varma oikeasta osasta. Pyydän apua sopivan varaosan tunnistamiseen.';
@@ -543,6 +788,13 @@
     });
 
     elements.clearMachineButton.addEventListener('click', clearMachine);
+    elements.mchaleLookupButton.addEventListener('click', lookupMchaleMachine);
+    elements.mchaleSerialLookup.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        lookupMchaleMachine();
+      }
+    });
     elements.machineModel.addEventListener('input', updateMailtoLink);
     elements.machineSerial.addEventListener('input', updateMailtoLink);
     elements.customerName.addEventListener('input', updateMailtoLink);
@@ -559,6 +811,9 @@
     elements.machineCards = byId('machineCards');
     elements.selectedMachine = byId('selectedMachine');
     elements.clearMachineButton = byId('clearMachineButton');
+    elements.mchaleSerialLookup = byId('mchaleSerialLookup');
+    elements.mchaleLookupButton = byId('mchaleLookupButton');
+    elements.mchaleLookupResult = byId('mchaleLookupResult');
     elements.machineModel = byId('machineModel');
     elements.machineSerial = byId('machineSerial');
     elements.catalogResults = byId('catalogResults');

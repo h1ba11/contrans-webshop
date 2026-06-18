@@ -11,7 +11,7 @@
   <header class="site-header">
     <div class="container header-grid">
       <div>
-        <p class="eyebrow">Contrans / MVP 0.12.0</p>
+        <p class="eyebrow">Contrans / MVP 0.13.0</p>
         <h1>Varaosat helposti</h1>
         <p class="lead">Valitse oma kone, etsi varaosa ja lähetä tiedustelu. Hintoja ei näytetä sivustolla, vaan asiantuntija tarkistaa sopivuuden ja vastaa tarjouksella.</p>
       </div>
@@ -41,6 +41,17 @@
             <button type="button" id="clearMachineButton" class="button text-button hidden">Tyhjennä valinta</button>
           </div>
           <div id="selectedMachine" class="selected-machine hidden"></div>
+
+          <div class="serial-lookup-card" aria-label="McHale-sarjanumerohaku">
+            <label for="mchaleSerialLookup">Hae McHale-kone sarjanumerolla</label>
+            <div class="lookup-row">
+              <input id="mchaleSerialLookup" type="text" inputmode="numeric" placeholder="Esim. 1006868" autocomplete="off">
+              <button type="button" id="mchaleLookupButton" class="button primary">Hae kone</button>
+            </div>
+            <p class="microcopy">Jos haku onnistuu, koneen tiedot lisätään tiedusteluun automaattisesti.</p>
+            <div id="mchaleLookupResult" class="lookup-result hidden" aria-live="polite"></div>
+          </div>
+
           <div id="machineCards" class="machine-grid" aria-live="polite"></div>
         </section>
 

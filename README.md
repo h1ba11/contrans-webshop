@@ -10,15 +10,38 @@ Tämä on yksinkertainen, tiedustelupohjainen varaosaportaali. Tarkoitus ei ole 
 - Easoft säilyy tuotetiedon lähteenä. Ensimmäinen versio voi käyttää CSV-exportia, tuotantoversio API:a.
 - Rakenne pidetään alustariippumattomana, jotta myöhempi WooCommerce- tai kotimainen verkkokauppa-alusta on mahdollinen.
 
-## Version 0.12.0 painotus
+## Version 0.13.0 painotus
 
-Tässä versiossa käyttöliittymää on yksinkertaistettu erityisesti vähän digipalveluita käyttäville asiakkaille:
+Tässä versiossa on lisätty oikea My McHale -sarjanumerohaku:
 
-1. Valitse oma kone
-2. Etsi tai lisää varaosa tiedusteluun
-3. Lähetä tiedustelu
+1. Asiakas syöttää McHale-koneen sarjanumeron.
+2. Portaali hakee koneen tiedot My McHale -rajapinnasta.
+3. Löydetty malli, sarjanumero ja varustelutiedot lisätään automaattisesti tiedusteluun.
+4. Jos haku ei onnistu, sarjanumero säilytetään tiedustelussa ja asiantuntija voi tarkistaa sopivuuden käsin.
 
-Käyttöliittymässä on isot painikkeet, vähemmän näkyviä suodattimia ja tuotekortit kuvituskuvilla. Lisätiedot, dokumentit ja tekniset suhteet ovat piilotettuna `Näytä lisätiedot` -osion taakse.
+Käyttöliittymä pidetään edelleen yksinkertaisena: kone ensin, osat toisena ja tiedustelu kolmantena. Lisätiedot, dokumentit ja tekniset suhteet ovat piilotettuna `Näytä lisätiedot` -osion taakse.
+
+## My McHale -haku
+
+Frontend käyttää oletuksena tätä päätepistettä:
+
+```text
+https://my.mchale.net/api/MachineDetails/GetMachineDetails?serialNumber=<sarjanumero>
+```
+
+Staattisessa prototyypissä kutsu tehdään selaimesta. Jos palvelu estää selainkutsun CORS-/suojaussyistä, käyttöliittymä näyttää virheilmoituksen mutta säilyttää sarjanumeron tiedustelussa. Tuotantoversiossa suositeltu malli on käyttää Contransin omaa backend/proxy-päätepistettä.
+
+Proxy-päätepisteen voi vaihtaa lisäämällä sivulle ennen `app.js`-tiedostoa esimerkiksi:
+
+```html
+<script>
+  window.CONTRANS_CONFIG = {
+    mchaleMachineDetailsEndpoint: 'https://oma-domain.fi/api/mchale-machine-details'
+  };
+</script>
+```
+
+Sovellus lisää tällöin parametrin `serialNumber` automaattisesti annetun päätepisteen perään.
 
 ## Käynnistys
 

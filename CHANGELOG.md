@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.0
+
+- Added a real My McHale serial number lookup to the machine selection flow.
+- The lookup calls `https://my.mchale.net/api/MachineDetails/GetMachineDetails?serialNumber=...` directly from the browser in the static prototype.
+- Found machine details are shown to the customer and added automatically to the inquiry text.
+- Added graceful fallback messaging if the API call is blocked or fails.
+- Added support for a future Contrans proxy endpoint through `window.CONTRANS_CONFIG.mchaleMachineDetailsEndpoint`.
+
 ## 0.12.0
 
 - Simplified the user interface for customers with limited digital experience.

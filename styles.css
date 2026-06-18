@@ -101,7 +101,8 @@ h3 {
 .step-card,
 .selected-machine,
 .simple-search,
-.advanced-search {
+.advanced-search,
+.serial-lookup-card {
   border: 1px solid var(--line);
   background: rgba(255, 250, 241, 0.94);
   border-radius: var(--radius);
@@ -258,6 +259,76 @@ h3 {
   padding: 16px;
   background: var(--surface-strong);
   box-shadow: none;
+}
+
+.serial-lookup-card {
+  padding: 16px;
+  background: var(--surface-strong);
+  box-shadow: none;
+}
+
+.lookup-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.microcopy {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.lookup-result {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.lookup-result p {
+  margin-bottom: 0;
+}
+
+.lookup-result.info {
+  background: #f7faf5;
+  color: var(--accent-dark);
+}
+
+.lookup-result.success {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.lookup-result.warning {
+  border-color: #e2b74f;
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.lookup-result.error {
+  border-color: #cf8f86;
+  background: #fff4f2;
+  color: var(--danger);
+}
+
+.lookup-spec-list,
+.selected-machine-spec-list {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.selected-machine.api-machine {
+  background: #e9f3e5;
+}
+
+.selected-machine-subtitle {
+  margin-top: 8px;
+  font-weight: 800;
 }
 
 .advanced-search {
@@ -609,6 +680,7 @@ a:focus {
     max-height: 210px;
   }
 
+  .lookup-row,
   .cart-row {
     grid-template-columns: 1fr;
   }
