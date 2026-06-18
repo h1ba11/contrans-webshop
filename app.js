@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var MCHALE_MACHINE_DETAILS_API_URL = 'https://my.mchale.net/api/MachineDetails/GetMachineDetails';
+  var MCHALE_MACHINE_DETAILS_API_URL = '/api/mchale-machine-details';
 
   var state = {
     catalog: null,
@@ -198,7 +198,7 @@
       cache: 'no-store'
     }).then(function (response) {
       if (!response.ok) {
-        throw new Error('My McHale -haku palautti virheen ' + response.status + '.');
+        throw new Error('My McHale -haku palautti virheen ' + response.status + '. Jos käytät GitHub Pagesia, tarvitaan erillinen backend/proxy.');
       }
       return response.json();
     });

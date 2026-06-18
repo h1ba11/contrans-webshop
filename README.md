@@ -10,40 +10,45 @@ Tämä on yksinkertainen, tiedustelupohjainen varaosaportaali. Tarkoitus ei ole 
 - Easoft säilyy tuotetiedon lähteenä. Ensimmäinen versio voi käyttää CSV-exportia, tuotantoversio API:a.
 - Rakenne pidetään alustariippumattomana, jotta myöhempi WooCommerce- tai kotimainen verkkokauppa-alusta on mahdollinen.
 
-## Version 0.13.0 painotus
+## Version 0.14.0 painotus
 
-Tässä versiossa on lisätty oikea My McHale -sarjanumerohaku:
+Tässä versiossa korjataan My McHale -haun CORS-ongelma.
 
-1. Asiakas syöttää McHale-koneen sarjanumeron.
-2. Portaali hakee koneen tiedot My McHale -rajapinnasta.
-3. Löydetty malli, sarjanumero ja varustelutiedot lisätään automaattisesti tiedusteluun.
-4. Jos haku ei onnistu, sarjanumero säilytetään tiedustelussa ja asiantuntija voi tarkistaa sopivuuden käsin.
+Versio 0.13.0 teki API-kutsun suoraan selaimesta My McHale -palveluun. Jos My McHale ei palauta `Access-Control-Allow-Origin`-otsaketta, selain estää kutsun virheellä `CORS Missing Allow Origin`.
 
-Käyttöliittymä pidetään edelleen yksinkertaisena: kone ensin, osat toisena ja tiedustelu kolmantena. Lisätiedot, dokumentit ja tekniset suhteet ovat piilotettuna `Näytä lisätiedot` -osion taakse.
+Versiossa 0.14.0 haku tehdään näin:
+
+```text
+Selain → Contrans oma palvelin/proxy → My McHale API
+```
+
+Selaimen näkökulmasta kutsu on samaan sivustoon:
+
+```text
+/api/mchale-machine-details?serialNumber=1006868
+```
+
+Tämä poistaa selain-CORS-ongelman paikallisessa testissä ja tuotannossa, kun sivusto ajetaan palvelimella tai serverless-ympäristössä.
 
 ## My McHale -haku
 
-Frontend käyttää oletuksena tätä päätepistettä:
+Frontend käyttää oletuksena samaa domainia käyttävää päätepistettä:
 
 ```text
-https://my.mchale.net/api/MachineDetails/GetMachineDetails?serialNumber=<sarjanumero>
+/api/mchale-machine-details?serialNumber=<sarjanumero>
 ```
 
-Staattisessa prototyypissä kutsu tehdään selaimesta. Jos palvelu estää selainkutsun CORS-/suojaussyistä, käyttöliittymä näyttää virheilmoituksen mutta säilyttää sarjanumeron tiedustelussa. Tuotantoversiossa suositeltu malli on käyttää Contransin omaa backend/proxy-päätepistettä.
+Paikallisessa testissä tämän hoitaa `server.js`.
 
-Proxy-päätepisteen voi vaihtaa lisäämällä sivulle ennen `app.js`-tiedostoa esimerkiksi:
+Vercel-tyyppisessä julkaisussa tämän hoitaa:
 
-```html
-<script>
-  window.CONTRANS_CONFIG = {
-    mchaleMachineDetailsEndpoint: 'https://oma-domain.fi/api/mchale-machine-details'
-  };
-</script>
+```text
+api/mchale-machine-details.js
 ```
 
-Sovellus lisää tällöin parametrin `serialNumber` automaattisesti annetun päätepisteen perään.
+GitHub Pages ei yksin riitä oikeaan My McHale -hakuun, koska GitHub Pages ei aja backend-koodia. GitHub Pagesilla staattinen sivusto voi toimia, mutta My McHale -haku vaatii erillisen backendin/proxyn.
 
-## Käynnistys
+## Käynnistys Codespacesissa tai paikallisesti
 
 ```bash
 ./scripts/serve.sh
@@ -52,7 +57,7 @@ Sovellus lisää tällöin parametrin `serialNumber` automaattisesti annetun pä
 Tai:
 
 ```bash
-python3 -m http.server 8000
+npm start
 ```
 
 Avaa selaimessa:
@@ -63,11 +68,31 @@ http://localhost:8000
 
 Codespacesissa avaa portti 8000 Ports-välilehdeltä.
 
+Testaa My McHale -hakua sarjanumerolla:
+
+```text
+1006868
+```
+
+Odotettu tulos on kone:
+
+```text
+McHale PROGLIDE R310
+```
+
 ## Tarkistukset
+
+```bash
+npm run check
+```
+
+Tai erikseen:
 
 ```bash
 python3 tools/validate_catalog.py
 node --check app.js
+node --check server.js
+node --check api/mchale-machine-details.js
 ```
 
 Odotettu validointitulos demodatalla:
@@ -79,16 +104,19 @@ OK: 12 items, 6 documents
 ## Tiedostot
 
 ```text
-index.html                 Sivun rakenne
-styles.css                 Ulkoasu
-app.js                     Käyttöliittymän logiikka
-catalog.json               Katalogidata
-catalog-fallback.js        Fallback-data GitHub Pages / staattiseen käyttöön
-demo-products.csv          Esimerkkimuotoinen CSV
-docs/                      Dokumentaation ja alustavalinnan muistiinpanot
-assets/                    Kuvituskuvat / kuvapaikat
-tools/                     Validointi ja vientityökalut
-scripts/serve.sh           Paikallinen testipalvelin
+index.html                         Sivun rakenne
+styles.css                         Ulkoasu
+app.js                             Käyttöliittymän logiikka
+server.js                          Paikallinen staattinen palvelin + My McHale proxy
+api/mchale-machine-details.js      Vercel/serverless proxy My McHale -hakuun
+catalog.json                       Katalogidata
+catalog-fallback.js                Fallback-data staattiseen käyttöön
+demo-products.csv                  Esimerkkimuotoinen CSV
+docs/                              Dokumentaation ja alustavalinnan muistiinpanot
+assets/                            Kuvituskuvat / kuvapaikat
+tools/                             Validointi ja vientityökalut
+scripts/serve.sh                   Paikallinen testipalvelin
+vercel.json                        Vercel-julkaisun perusasetukset
 ```
 
 ## Tuotekuvat

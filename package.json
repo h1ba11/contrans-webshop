@@ -1,0 +1,11 @@
+{
+  "name": "contrans-varaosaportaali-prototype",
+  "version": "0.14.0",
+  "private": true,
+  "description": "Inquiry-only spare parts portal prototype with My McHale proxy lookup.",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js",
+    "check": "python3 tools/validate_catalog.py && node --check app.js && node --check server.js && node --check api/mchale-machine-details.js"
+  }
+}
